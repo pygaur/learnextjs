@@ -1,0 +1,283 @@
+<html>
+<head>
+<title>Hello World</title>
+<link rel="stylesheet" type="text/css" href="/static/js/extjs/resources/css/ext-all.css">
+<script type="text/javascript"
+src="/static/js/extjs/ext-debug.js"></script>
+<!--
+<script type="text/javascript">
+            
+            
+
+Ext.define('User', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'name',  type: 'string'},
+        {name: 'age',   type: 'int', convert: null},
+        {name: 'phone', type: 'string'},
+        {name: 'alive', type: 'boolean', defaultValue: true, convert: null}
+    ],
+
+    changeName: function() {
+        var oldName = this.get('name'),
+            newName = oldName + " The Barbarian";
+
+        this.set('name', newName);
+    }
+});
+
+
+</script>-->
+
+<script type="text/javascript" >
+
+
+Ext.onReady(function() {
+var myDiv = Ext.get('myDiv');
+var footer1 = Ext.get('footer1');
+var footer3 = Ext.get('footer3');
+Ext.create('Ext.form.Panel', {
+    //standardSubmit: false,
+    title: 'Signup Form',
+    bodyPadding: 5,
+    width: 350,
+    // The form will submit an AJAX request to this URL when submitted
+    url: '/signup/',
+
+    // Fields will be arranged vertically, stretched to full width
+    layout: 'anchor',
+    defaults: {
+        anchor: '100%'
+    },
+
+    // The fields
+    defaultType: 'textfield',
+    
+    items: [{
+        fieldLabel: 'User Name',
+        value:'',
+        name: 'username',
+        allowBlank: false
+    },
+    
+    {
+        fieldLabel: 'Password',
+        name: 'password',
+        value:"",
+
+        allowBlank: false,
+        inputType: 'password'
+        
+    },
+    
+    {
+        value:'{{ csrf_token }}',
+        name: 'csrfmiddlewaretoken',
+        id:'token',
+        inputType: 'hidden'
+        
+    }
+    ,
+    //
+    //{
+    //   hidden:true,
+    //   contentEl: "hidden-csrf" 
+    //}
+    //,
+    {
+        fieldLabel: 'Email',
+        value:'',
+        name: 'email',
+        allowBlank: false,
+        inputType: 'email',
+        
+    }],
+    
+    
+    
+    
+    // Reset and Submit buttons
+    buttons: [{
+        text: 'Reset',
+        handler: function() {
+            this.up('form').getForm().reset();
+        }
+    }, {
+        text: 'Submit',
+        formBind: true, //only enabled once the form is valid
+        disabled: true,
+        handler: function() {
+            
+            var form = this.up('form').getForm();
+            if (form.isValid()) {
+                
+                form.submit(
+                {
+                success: function(form, action) {
+                
+                   Ext.Msg.alert('Success', action.result);
+                 
+                  },
+        
+                failure: function(form, action) {
+                Ext.Msg.alert('Failed', action.result);
+                    }
+                    
+                    
+               
+                
+                
+                    
+                    
+                });
+            }
+        }
+    }],
+    renderTo: myDiv
+});
+
+
+
+Ext.create('Ext.Button', {
+            text: 'Press me!',
+            id:'pressme',
+            renderTo: myDiv,
+            hidden:true,
+            //disabled:true,
+            
+            
+});
+
+
+Ext.create('Ext.Button', {
+    //text: 'Start',
+    renderTo: footer1,
+    cls:'startmenu',
+
+    width:50,
+    height:50,
+    type:'button',
+    
+    handler: function() {
+    myDiv.highlight();
+    myDiv.update("Agin i am  changed!")
+    
+    }
+});
+
+
+//var image = Ext.create('Ext.Img', {
+//    src: "/static/js/extjs/loading.gif",
+//    renderTo: myDiv
+//});
+//image.on("load", function() {
+//        
+//    console.log("loaded");
+//});
+
+//var image = Ext.create('Ext.Img', {
+//    src: "/static/js/extjs/loading.gif",
+//    renderTo: Ext.myDiv,
+//    listeners : {
+//       load : {
+//           element : 'loadingimage',  //the rendered img element
+//           fn : console.log
+//         }
+//     }
+//});
+
+
+
+
+Ext.create('Ext.Button', {
+    //text: 'Logout',
+    renderTo: footer3,
+    cls:'logoutsection',
+
+    width:100,
+    height:35,
+    type:'button',
+    
+    handler: function() {
+    
+    Ext.MessageBox.confirm('Confirmation', 'Are You to logout ? ... ?', confirmFunction);
+
+    function confirmFunction (btn)
+    {
+        if (btn == 'yes')
+        {
+               // To do
+        }
+    }
+    
+    //myDiv.highlight();
+    
+    //myDiv.update("Agin i am  changed!")
+    
+    }
+
+    
+    
+    
+});
+
+
+
+
+
+var loadingimagediv = Ext.get('loadingimagediv');
+//loadingimagediv.hide()
+loadingimagediv.remove()
+
+});
+</script>
+<style type="text/css">
+            
+            .startmenu {
+            background:black;
+            background-image: url("/static/js/extjs/windows-start.jpg")
+            }
+            .logoutsection {
+            background:black;
+            background-image: url("/static/js/extjs/logoff.gif");
+            padding-top: 35px;
+            }
+            
+            
+            
+</style>
+
+</head>
+<body>
+
+
+<div id="myDiv" style="width:980px; height: 550px; background: white;">
+
+<div id="loadingimagediv">
+<img id="loadingimage" name="loadingimage" src="/static/js/extjs/loading.gif" style="padding-top: 100px; padding-left: 500px;"/>
+</div>
+
+
+</div>
+<div id="footer" style="width:980px; height: 50px;">
+<div id="footer1" style="width:50px; height: inherit; float: left;">
+</div>
+<div id="footer2" style="width:780px; height: inherit; float: left;">
+            
+</div>
+<div id="footer3" style="width:100px; height: inherit; float: right;">
+            
+            
+</div>
+
+            
+            
+</div>
+
+
+
+
+
+    
+</body>
+</html>
